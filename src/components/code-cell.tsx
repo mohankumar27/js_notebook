@@ -1,29 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import CodeEditor from "./code-editor";
 import Preview from "./preview";
 import bundler from "../bundler";
+import Resizable from "./resizable";
 
 const CodeCell = () => {
   const [input, setInput] = useState("");
   const [code, setCode] = useState("");
 
-  const onSubmitHandler = async () => {
-    const output = await bundler(input);
-    setCode(output);
-  };
+  // Execute user's code after they pause for a period of 1 second
+  useEffect(() => {
+    const timer = setTimeout(async () => {
+      const output = await bundler(input);
+      setCode(output);
+    }, 1000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [input]);
 
   return (
-    <div>
-      <CodeEditor
-        initialValue="//js code here"
-        onChange={(value) => setInput(value)}
-      />
-      <div>
-        <button onClick={onSubmitHandler}>Submit</button>
+    <Resizable direction="vertical">
+      <div style={{ height: "100%", display: "flex", flexDirection: "row" }}>
+        <Resizable direction="horizontal">
+          <CodeEditor
+            initialValue="//js code here"
+            onChange={(value) => setInput(value)}
+          />
+        </Resizable>
+        <Preview code={code} />
       </div>
-      <Preview code={code} />
-    </div>
+    </Resizable>
   );
 };
 

@@ -1,12 +1,16 @@
 import React, { useEffect, useRef } from "react";
 
+import "./preview.css";
+
 interface PreviewProps {
   code: string | undefined;
 }
 
 const iframHTML = `
   <html>
-    <head></head>
+    <head>
+      <style>html {background-color: white;}</style>
+    </head>
     <body>
       <div id="root"></div>
       <script>
@@ -30,7 +34,9 @@ const Preview: React.FC<PreviewProps> = ({ code }) => {
   useEffect(() => {
     childIframe.current.srcdoc = iframHTML;
     if (code) {
-      childIframe.current.contentWindow.postMessage(code, "*");
+      setTimeout(() => {
+        childIframe.current.contentWindow.postMessage(code, "*");
+      }, 50);
     } else {
       // capture syntax errors
       // TODO: check if it can be improved to throw errors in Iframe instead of console
@@ -42,12 +48,14 @@ const Preview: React.FC<PreviewProps> = ({ code }) => {
   }, [code]);
 
   return (
-    <iframe
-      ref={childIframe}
-      sandbox="allow-scripts"
-      title="code preview"
-      srcDoc={iframHTML}
-    />
+    <div className="preview-wrapper">
+      <iframe
+        ref={childIframe}
+        sandbox="allow-scripts"
+        title="code preview"
+        srcDoc={iframHTML}
+      />
+    </div>
   );
 };
 
