@@ -12,8 +12,8 @@ const Bundler = async (rawCode: string) => {
     });
   }
 
-  const result: any = await service
-    .build({
+  try {
+    const result: any = await service.build({
       entryPoints: ["index.js"],
       bundle: true,
       write: false,
@@ -22,12 +22,11 @@ const Bundler = async (rawCode: string) => {
         "process.env.NODE_ENV": '"production"',
         global: "window",
       },
-    })
-    .catch(() => {
-      return;
     });
-
-  return result.outputFiles[0].text;
+    return { code: result.outputFiles[0].text, err: "" };
+  } catch (err: any) {
+    return { code: "", err: err.message };
+  }
 };
 
 export default Bundler;

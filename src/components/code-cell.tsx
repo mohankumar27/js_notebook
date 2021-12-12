@@ -8,12 +8,14 @@ import Resizable from "./resizable";
 const CodeCell = () => {
   const [input, setInput] = useState("");
   const [code, setCode] = useState("");
+  const [err, setErr] = useState("");
 
   // Execute user's code after they pause for a period of 1 second
   useEffect(() => {
     const timer = setTimeout(async () => {
       const output = await bundler(input);
-      setCode(output);
+      setCode(output.code);
+      setErr(output.err);
     }, 1000);
     return () => {
       clearTimeout(timer);
@@ -29,7 +31,7 @@ const CodeCell = () => {
             onChange={(value) => setInput(value)}
           />
         </Resizable>
-        <Preview code={code} />
+        <Preview code={code} bundlingError={err} />
       </div>
     </Resizable>
   );
