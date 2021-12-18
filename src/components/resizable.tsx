@@ -33,7 +33,7 @@ const Resizable: React.FC<ResizableProps> = ({ direction, children }) => {
     return () => {
       window.removeEventListener("resize", listener);
     };
-  }, []);
+  }, [editorWidth]);
   if (direction === "horizontal") {
     resizableProps = {
       className: "resize-horizontal",
