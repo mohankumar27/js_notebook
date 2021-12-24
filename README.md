@@ -18,6 +18,10 @@ Install the cli [workbookjs](https://www.npmjs.com/package/workbookjs) present i
 
 - Inbuilt **show(args)** function that renders output to preview window without any additional logic required.
 
+## Screenshots
+![image](https://user-images.githubusercontent.com/25298468/147328098-bb5ff1aa-0ae0-4b8e-85f0-0f2fe49edcf5.png)
+
+
 ## Authors
 
 **Mohan Kumar Sagadevan** - [GitHub](https://github.com/mohankumar27)
